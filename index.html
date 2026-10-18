@@ -4,67 +4,125 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>SPD Unload & Announcement System</title>
+<title>SPD Unload</title>
 <style>
 :root{--bg:#0b1220;--panel:#151f30;--text:#f4f7fb;--muted:#a9b6c9;--line:#30415b;--blue:#3b82f6;--green:#16803c;--amber:#b96c08;--red:#dc2626;--purple:#7256c9}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101827,#080d16 72%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.wrap{max-width:1100px;margin:auto;padding:22px}header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
-h1{margin:0;font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:-.03em}.subtitle{color:var(--muted);margin-top:5px}
-.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:var(--muted);font-size:.86rem;background:#111a29}
-.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}button{border:0;border-radius:12px;padding:13px 15px;min-height:46px;font-size:1rem;font-weight:750;color:white;cursor:pointer;transition:filter .15s,transform .05s}button:hover{filter:brightness(1.1)}button:active{transform:translateY(1px)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(160deg,#101827,#080d16 72%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+h1{margin:0;font-size:clamp(1.25rem,2.2vw,1.8rem);letter-spacing:-.03em}
+.subtitle{color:var(--muted);margin-top:3px;font-size:.9rem}
+.pills{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:.8rem;background:#111a29}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;background:#0c1422;border:1px solid var(--line);border-radius:14px;margin:0 0 14px}
+.segment button{border-radius:10px;background:transparent;color:var(--muted);min-height:42px;padding:9px 12px}
+.segment button.active{background:var(--blue);color:white}
+button{border:0;border-radius:12px;padding:12px 13px;min-height:44px;font-size:.96rem;font-weight:750;color:white;cursor:pointer;transition:filter .15s,transform .05s}
+button:hover{filter:brightness(1.1)}button:active{transform:translateY(1px)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
 .btn-blue{background:var(--blue)}.btn-green{background:var(--green)}.btn-amber{background:var(--amber)}.btn-red{background:var(--red)}.btn-dark{background:#334155}.btn-purple{background:var(--purple)}.btn-small{min-height:38px;padding:9px 12px;font-size:.9rem}
-.notice{color:var(--muted);font-size:.88rem;line-height:1.5;margin:8px 0 18px}.area{margin:22px 0}.area-title{font-size:1.13rem;margin:0 0 11px;display:flex;align-items:center;gap:10px}.area-title .num{display:inline-grid;place-items:center;width:29px;height:29px;background:#26354b;border-radius:9px;font-size:.9rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.tile{background:linear-gradient(160deg,var(--panel),#111a29);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 10px 28px #0002}.tile h3{margin:0 0 8px;font-size:1.08rem}.tile p{color:var(--muted);font-size:.86rem;line-height:1.4;margin:0 0 12px}.tile button{width:100%}
-.timerline{font-size:2.15rem;font-weight:850;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:8px 0}.status{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:#cbd5e1;background:#26354b;border-radius:999px;padding:5px 8px;display:inline-block}
-.tile-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.tile .secondary{margin-top:8px;background:#334155}
-.escalate-panel{border:1px solid #7f1d1d;background:linear-gradient(145deg,#451a1a,#24141b);border-radius:16px;padding:15px}.escalate-panel p{color:#fecaca;margin:0 0 12px;font-size:.9rem}.escalate-panel button{width:100%;font-size:1.1rem}.flash{animation:flash .65s infinite alternate}@keyframes flash{from{box-shadow:0 0 0 0 #ef444433}to{box-shadow:0 0 0 6px #ef4444aa}}
-details{margin-top:20px;background:#101a2a;border:1px solid var(--line);border-radius:14px;padding:14px}summary{cursor:pointer;font-weight:750}.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}.settings-card{background:#151f30;border:1px solid var(--line);padding:12px;border-radius:12px}label{display:block;font-size:.83rem;color:var(--muted);margin:9px 0 5px}input,textarea{width:100%;border:1px solid #43536c;border-radius:9px;background:#0c1422;color:var(--text);padding:10px;font:inherit}input[type=number]{max-width:120px}textarea{min-height:70px;resize:vertical}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.row button{flex:1}.log{max-height:140px;overflow:auto;color:var(--muted);font-size:.84rem}.log div{padding:5px 0;border-bottom:1px solid #26354b}.footer{margin-top:20px;color:#8392a8;font-size:.81rem;line-height:1.5}
-@media(max-width:560px){.wrap{padding:14px}.grid{grid-template-columns:1fr 1fr}.tile{padding:11px}.tile button{padding:11px 8px;font-size:.92rem}.timerline{font-size:1.8rem}} 
+.page[hidden]{display:none!important}
+.section-title{font-size:1rem;margin:0 0 9px;color:#dbeafe;display:flex;align-items:center;gap:8px}
+.section-title .num{display:inline-grid;place-items:center;width:25px;height:25px;background:#26354b;border-radius:8px;font-size:.82rem}
+.home-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{background:linear-gradient(160deg,var(--panel),#111a29);border:1px solid var(--line);border-radius:15px;padding:12px;box-shadow:0 8px 22px #0002;min-width:0}
+.tile h3{margin:0 0 7px;font-size:1rem}.tile p{color:var(--muted);font-size:.8rem;line-height:1.35;margin:0 0 9px}
+.tile button{width:100%}
+.cart-tile{grid-column:span 2}.tile-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.timerline{font-size:1.8rem;font-weight:850;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:5px 0}
+.status{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:#cbd5e1;background:#26354b;border-radius:999px;padding:4px 7px;display:inline-block;white-space:nowrap}
+.cart-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.cart-actions button{padding:10px 8px;min-height:42px}
+.secondary{background:#334155}
+.escalate-tile{border-color:#7f1d1d;background:linear-gradient(145deg,#451a1a,#24141b)}
+.escalate-tile p{color:#fecaca}
+.flash{animation:flash .65s infinite alternate}@keyframes flash{from{box-shadow:0 0 0 0 #ef444433}to{box-shadow:0 0 0 5px #ef4444aa}}
+.assist-tile{text-align:center;display:flex;flex-direction:column;justify-content:space-between;min-height:118px}
+.tile-icon{font-size:1.65rem;line-height:1.2;margin:1px 0 7px}
+.assist-tile h3{font-size:.92rem;min-height:2.2em}
+.home-footer{margin-top:10px;color:#8392a8;font-size:.76rem;line-height:1.4}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 12px}
+.notice{color:var(--muted);font-size:.86rem;line-height:1.5;margin:8px 0 14px}
+details{margin-top:12px;background:#101a2a;border:1px solid var(--line);border-radius:14px;padding:13px}
+summary{cursor:pointer;font-weight:750}
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.settings-card{background:#151f30;border:1px solid var(--line);padding:12px;border-radius:12px}
+label{display:block;font-size:.83rem;color:var(--muted);margin:9px 0 5px}
+input,textarea{width:100%;border:1px solid #43536c;border-radius:9px;background:#0c1422;color:var(--text);padding:10px;font:inherit}
+input[type=number]{max-width:120px}textarea{min-height:70px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.row button{flex:1}
+.log{max-height:140px;overflow:auto;color:var(--muted);font-size:.84rem}.log div{padding:5px 0;border-bottom:1px solid #26354b}
+.footer{margin-top:16px;color:#8392a8;font-size:.79rem;line-height:1.5}
+@media(max-width:760px){.home-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cart-tile{grid-column:span 2}header{align-items:flex-start;flex-direction:column}}
+@media(max-width:420px){.wrap{padding:10px}.tile{padding:10px}.timerline{font-size:1.55rem}.cart-actions{grid-template-columns:1fr}.pills{width:100%}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
- <div><h1>SPD Unload & Announcement System</h1><div class="subtitle">Decon operator console · Bluetooth speaker alerts</div></div>
+ <div><h1>SPD Unload</h1><div class="subtitle">Decon quick actions · announcements & washer timer</div></div>
  <div class="pills"><span class="pill" id="audioStatus"><strong>Audio:</strong> not tested</span><span class="pill" id="timerStatus"><strong>Active timers:</strong> 0</span></div>
 </header>
-<div class="toolbar">
- <button class="btn-blue" id="speakerTest">🔊 Speaker Test</button>
- <button class="btn-dark" id="enableAudio">Enable Audio</button>
- <button class="btn-dark" id="stopSound">■ Stop Sound</button>
-</div>
-<p class="notice">Pair the desktop with the JBL Go 5 and select it as the desktop's sound output. Click Enable Audio, then Speaker Test and confirm the sound comes from the JBL. Keep this page open and the desktop awake while testing.</p>
 
-<section class="area">
- <h2 class="area-title"><span class="num">1</span> Cart Washer</h2>
- <div class="grid" id="cartGrid"></div>
- <div class="escalate-panel" id="escalatePanel" style="margin-top:12px">
-  <p>Escalation immediately plays a louder, repeating buzzer. Use only when additional attention is needed.</p>
-  <button class="btn-red" id="escalate" aria-pressed="false">🚨 ESCALATE: OFF — TAP TO TURN ON</button>
+<nav class="segment" aria-label="App pages">
+ <button id="homeTab" class="active" aria-selected="true">⌂ Home</button>
+ <button id="toolsTab" aria-selected="false">⚙ Test & Settings</button>
+</nav>
+
+<main id="homePage" class="page">
+ <h2 class="section-title"><span class="num">1</span> Cart Washer — choose one cycle</h2>
+ <div class="home-grid" id="cartGrid"></div>
+ <div class="home-grid" style="margin-top:10px">
+  <article class="tile escalate-tile" id="escalatePanel">
+   <div class="tile-icon">🚨</div><h3>Escalation</h3>
+   <p>Repeating buzzer for additional attention. Tap again to turn it off.</p>
+   <button class="btn-red" id="escalate" aria-pressed="false">ESCALATE: OFF</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">🧺</div><h3>Washer 1</h3></div>
+   <button class="btn-amber" data-call="Assistance for Washer 1" data-kind="assist">📢 Call</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">🧺</div><h3>Washer 2</h3></div>
+   <button class="btn-amber" data-call="Assistance for Washer 2" data-kind="assist">📢 Call</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">🧺</div><h3>Washer 3</h3></div>
+   <button class="btn-amber" data-call="Assistance for Washer 3" data-kind="assist">📢 Call</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">🔥</div><h3>Drying Cabinet</h3></div>
+   <button class="btn-amber" data-call="Assistance for Drying Cabinet" data-kind="assist">📢 Call</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">↔️</div><h3>Pass Window</h3></div>
+   <button class="btn-amber" data-call="Assistance for Pass Window" data-kind="assist">📢 Call</button>
+  </article>
+  <article class="tile assist-tile">
+   <div><div class="tile-icon">👩‍⚕️</div><h3>Shift Lead</h3></div>
+   <button class="btn-purple" data-call="Attention: Call Shift Lead" data-kind="shift">📢 Call</button>
+  </article>
  </div>
-</section>
+ <div class="home-footer">Keep this page open and the desktop awake. Confirm announcements are audible through the JBL speaker before use.</div>
+</main>
 
-<section class="area">
- <h2 class="area-title"><span class="num">2</span> Assistance for Washer 1 / 2 / 3</h2>
- <div class="grid" id="washerAssistGrid"></div>
-</section>
-<section class="area">
- <h2 class="area-title"><span class="num">3</span> Assistance for Drying Cabinet / Pass Window</h2>
- <div class="grid" id="otherAssistGrid"></div>
-</section>
-<section class="area">
- <h2 class="area-title"><span class="num">4</span> Shift Lead Call</h2>
- <div class="grid" id="shiftGrid"></div>
-</section>
-
-<details>
- <summary>Settings — timer durations and announcement wording</summary>
- <p class="notice">Settings are saved only in this browser on this desktop. Defaults are placeholders; confirm the correct operational timings before relying on the alerts.</p>
- <div class="settings-grid" id="settings"></div>
- <div class="row"><button class="btn-green" id="saveSettings">Save Settings</button><button class="btn-dark" id="resetSettings">Reset Defaults</button></div>
-</details>
-<details><summary>Activity log (this browser session)</summary><div class="log" id="log"><div>Ready for testing.</div></div></details>
-<div class="footer">Prototype only — not a certified alarm or life-safety system. Browser audio and timers may be delayed if the device sleeps or the tab is suspended. The page cannot guarantee Bluetooth connectivity or audible output. Do not use as the sole notification method for safety-critical work.</div>
+<main id="toolsPage" class="page" hidden>
+ <h2 class="section-title"><span class="num">⚙</span> Audio test</h2>
+ <div class="toolbar">
+  <button class="btn-blue" id="speakerTest">🔊 Speaker Test</button>
+  <button class="btn-dark" id="enableAudio">Enable Audio</button>
+  <button class="btn-dark" id="stopSound">■ Stop Sound</button>
+ </div>
+ <p class="notice">Pair the desktop with the JBL speaker and select it as the desktop's sound output. Click Enable Audio, then Speaker Test and confirm the chime and spoken message come from the JBL.</p>
+ <details open>
+  <summary>Timer durations and announcement wording</summary>
+  <p class="notice">Settings are saved only in this browser on this desktop. Cart Std defaults to 13 minutes and Container to 18 minutes.</p>
+  <div class="settings-grid" id="settings"></div>
+  <div class="row"><button class="btn-green" id="saveSettings">Save Settings</button><button class="btn-dark" id="resetSettings">Reset Defaults</button></div>
+ </details>
+ <details><summary>Activity log (this browser session)</summary><div class="log" id="log"><div>Ready for testing.</div></div></details>
+ <div class="footer">Prototype only — not a certified alarm or life-safety system. Browser audio and timers may be delayed if the device sleeps or the tab is suspended. Bluetooth connectivity and audible output are not guaranteed.</div>
+</main>
 </div>
 <script>
 (() => {
@@ -102,17 +160,20 @@ function updateEscalateButton(){const b=$("escalate");b.setAttribute("aria-press
 function stopSound(){if(alarmInterval)clearInterval(alarmInterval);alarmInterval=null;escalation=false;if("speechSynthesis"in window)window.speechSynthesis.cancel();if(audioCtx){try{audioCtx.close()}catch{}audioCtx=null}updateEscalateButton();status("sounds stopped · enable audio to test again");log("Sounds stopped.");}
 function escalate(){if(escalation){if(alarmInterval)clearInterval(alarmInterval);alarmInterval=null;escalation=false;updateEscalateButton();log("ESCALATE turned OFF — buzzer stopped.");return;}if("speechSynthesis"in window)window.speechSynthesis.cancel();if(audioCtx){try{audioCtx.close()}catch{}audioCtx=null}ensureAudio();escalation=true;updateEscalateButton();buzz();alarmInterval=setInterval(()=>{if(escalation)buzz()},950);status("escalation buzzer ON");log("ESCALATE turned ON — loud repeating buzzer started.")}
 function fmt(ms){let s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-function makeCart(){const grid=$("cartGrid");grid.innerHTML="";Object.entries(settings.cart).forEach(([name,cfg])=>{runtime[name]=runtime[name]||{status:"ready",endAt:null,interval:null,warningTimeout:null,repeatInterval:null};const card=document.createElement("article");card.className="tile";card.id="card-"+slug(name);card.innerHTML=`<div class="tile-top"><h3>${esc(name)}</h3><span class="status" id="state-${slug(name)}">READY</span></div><div class="timerline" id="time-${slug(name)}">${cfg.minutes>0?fmt(cfg.minutes*60000):"—:—"}</div><p id="sub-${slug(name)}">Ready to start</p><button class="btn-green" data-start="${esc(name)}">▶ Start ${esc(name)}</button><button class="btn-dark secondary" data-reset="${esc(name)}">↺ Reset Timer</button>`;grid.appendChild(card)});grid.querySelectorAll("[data-start]").forEach(b=>b.onclick=()=>startTimer(b.dataset.start));grid.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>resetTimer(b.dataset.reset));Object.keys(settings.cart).forEach(renderTimer)}
-function makeCalls(container,dict,kind){const grid=$(container);grid.innerHTML="";Object.entries(dict).forEach(([name,msg])=>{const card=document.createElement("article");card.className="tile";card.innerHTML=`<h3>${esc(name)}</h3><p>Plays the assigned spoken announcement immediately.</p><button class="${kind==="shift"?"btn-purple":"btn-amber"}" data-call="${esc(name)}" data-kind="${kind}">📢 ${kind==="shift"?"Call Shift Lead":"Request Assistance"}</button>`;grid.appendChild(card)});grid.querySelectorAll("[data-call]").forEach(b=>b.onclick=()=>{const dictNow=b.dataset.kind==="shift"?settings.shift:settings.assist;speak(dictNow[b.dataset.call]);log("Announcement played: "+b.dataset.call)})}
-function renderTimer(name){const t=runtime[name],id=slug(name);if(!$("state-"+id))return;$("state-"+id).textContent=({ready:"READY",running:"RUNNING",warning:"WARNING",alert:"ALERTING",stopped:"STOPPED"})[t.status]||"READY";$("sub-"+id).textContent=({ready:"Ready to start",running:"Countdown in progress",warning:"One-minute warning chime played",alert:"Cycle complete — announcement sent",stopped:"Timer stopped"})[t.status]||"";$("card-"+id).style.borderColor=t.status==="alert"?"#dc2626":t.status==="warning"?"#b96c08":""}
+function makeCart(){const grid=$("cartGrid");grid.innerHTML="";Object.entries(settings.cart).forEach(([name,cfg])=>{runtime[name]=runtime[name]||{status:"ready",endAt:null,interval:null,warningTimeout:null,repeatInterval:null};const card=document.createElement("article");card.className="tile cart-tile";card.id="card-"+slug(name);card.innerHTML=`<div class="tile-top"><h3>${esc(name)}</h3><span class="status" id="state-${slug(name)}">READY</span></div><div class="timerline" id="time-${slug(name)}">${cfg.minutes>0?fmt(cfg.minutes*60000):"—:—"}</div><p id="sub-${slug(name)}">Ready to start</p><div class="cart-actions"><button class="btn-green" data-start="${esc(name)}">▶ Start running</button><button class="btn-dark secondary" data-reset="${esc(name)}">↺ Reset</button></div>`;grid.appendChild(card)});grid.querySelectorAll("[data-start]").forEach(b=>b.onclick=()=>{const t=runtime[b.dataset.start];if(t&&["running","warning"].includes(t.status)){resetTimer(b.dataset.start);log(b.dataset.start+" run cancelled.");}else startTimer(b.dataset.start)});grid.querySelectorAll("[data-reset]").forEach(b=>b.onclick=()=>resetTimer(b.dataset.reset));Object.keys(settings.cart).forEach(renderTimer)}
+function makeCalls(container,dict,kind){const grid=$(container);if(!grid)return;grid.innerHTML="";Object.entries(dict).forEach(([name,msg])=>{const card=document.createElement("article");card.className="tile";card.innerHTML=`<h3>${esc(name)}</h3><p>Plays the assigned spoken announcement immediately.</p><button class="${kind==="shift"?"btn-purple":"btn-amber"}" data-call="${esc(name)}" data-kind="${kind}">📢 ${kind==="shift"?"Call Shift Lead":"Request Assistance"}</button>`;grid.appendChild(card)});grid.querySelectorAll("[data-call]").forEach(b=>b.onclick=()=>{const dictNow=b.dataset.kind==="shift"?settings.shift:settings.assist;speak(dictNow[b.dataset.call]);log("Announcement played: "+b.dataset.call)})}
+function renderTimer(name){const t=runtime[name],id=slug(name);if(!$("state-"+id))return;$("state-"+id).textContent=({ready:"READY",running:"RUNNING",warning:"WARNING",alert:"ALERTING",stopped:"STOPPED"})[t.status]||"READY";$("sub-"+id).textContent=({ready:"Ready to start",running:"Cycle running · tap Cancel to stop",warning:"One-minute warning chime played",alert:"Cycle complete — announcement sent",stopped:"Timer stopped"})[t.status]||"";const card=$("card-"+id);card.style.borderColor=t.status==="alert"?"#dc2626":t.status==="warning"?"#b96c08":"";const start=card.querySelector("[data-start]");if(start){const active=["running","warning"].includes(t.status);start.textContent=active?"✕ Cancel run":"▶ Start running";start.className=active?"btn-red":"btn-green";}}
 function activeCount(){$("timerStatus").innerHTML="<strong>Active timers:</strong> "+Object.values(runtime).filter(t=>["running","warning"].includes(t.status)).length}
 function clearRuntime(name){const t=runtime[name];if(!t)return;clearInterval(t.interval);clearTimeout(t.warningTimeout);clearInterval(t.repeatInterval);t.interval=t.warningTimeout=t.repeatInterval=null}
-function startTimer(name){const cfg=settings.cart[name];if(!cfg||cfg.minutes<=0){alert("Set a timer duration greater than 0 in Settings.");return}ensureAudio();clearRuntime(name);const t=runtime[name];t.status="running";t.endAt=Date.now()+cfg.minutes*60000;const warnMs=(cfg.minutes-settings.warningMinutes)*60000;if(cfg.warning&&settings.warningMinutes>0&&warnMs>0)t.warningTimeout=setTimeout(()=>{if(t.status!=="running")return;t.status="warning";chime();log(name+": warning chime played.");renderTimer(name)},warnMs);t.interval=setInterval(()=>tick(name),250);renderTimer(name);activeCount();log(name+" timer started ("+cfg.minutes+" min).")}
+function startTimer(name){const cfg=settings.cart[name];if(!cfg||cfg.minutes<=0){alert("Set a timer duration greater than 0 in Settings.");return}const otherActive=Object.keys(settings.cart).find(other=>other!==name&&runtime[other]&&["running","warning"].includes(runtime[other].status));if(otherActive){alert(otherActive+" is already running. Cancel it before starting "+name+".");return}ensureAudio();clearRuntime(name);const t=runtime[name];t.status="running";t.endAt=Date.now()+cfg.minutes*60000;const warnMs=(cfg.minutes-settings.warningMinutes)*60000;if(cfg.warning&&settings.warningMinutes>0&&warnMs>0)t.warningTimeout=setTimeout(()=>{if(t.status!=="running")return;t.status="warning";chime();log(name+": warning chime played.");renderTimer(name)},warnMs);t.interval=setInterval(()=>tick(name),250);renderTimer(name);activeCount();log(name+" timer started ("+cfg.minutes+" min).")}
 function tick(name){const t=runtime[name];if(!t?.endAt)return;$("time-"+slug(name)).textContent=fmt(t.endAt-Date.now());if(Date.now()>=t.endAt)finishTimer(name)}
 function finishTimer(name){const t=runtime[name],cfg=settings.cart[name];clearRuntime(name);t.status="alert";t.endAt=null;speak(cfg.message);log(name+": timer expired; completion announcement played.");renderTimer(name);activeCount();if(settings.repeatSeconds>0)t.repeatInterval=setInterval(()=>{if(t.status==="alert"){speak(cfg.message);log(name+": reminder repeated.")}},settings.repeatSeconds*1000)}
 function resetTimer(name){clearRuntime(name);const t=runtime[name];t.status="ready";t.endAt=null;$("time-"+slug(name)).textContent=fmt(settings.cart[name].minutes*60000);renderTimer(name);activeCount();log(name+" timer reset.")}
 function makeSettings(){const s=$("settings");s.innerHTML="";Object.entries(settings.cart).forEach(([name,cfg])=>{const d=document.createElement("div");d.className="settings-card";d.innerHTML=`<h3>${esc(name)}</h3><label>Duration (minutes)</label><input type="number" min="1" max="600" id="min-${slug(name)}" value="${cfg.minutes}"><label>Completion announcement</label><textarea id="msg-${slug(name)}">${esc(cfg.message)}</textarea><label><input type="checkbox" id="warn-${slug(name)}" ${cfg.warning?"checked":""} style="width:auto"> Play one-minute warning chime</label>`;s.appendChild(d)});[["assist",settings.assist],["shift",settings.shift]].forEach(([kind,dict])=>Object.entries(dict).forEach(([name,msg])=>{const d=document.createElement("div");d.className="settings-card";d.innerHTML=`<h3>${esc(name)}</h3><label>Spoken announcement</label><textarea id="msg-${kind}-${slug(name)}">${esc(msg)}</textarea>`;s.appendChild(d)}));const g=document.createElement("div");g.className="settings-card";g.innerHTML=`<h3>General</h3><label>Warning lead time (minutes)</label><input type="number" min="0" max="30" id="warningMinutes" value="${settings.warningMinutes}"><label>Repeat completion announcement (seconds; 0 = no repeat)</label><input type="number" min="0" max="600" id="repeatSeconds" value="${settings.repeatSeconds}">`;s.appendChild(g)}
 function saveSettings(){Object.keys(settings.cart).forEach(name=>{const id=slug(name);settings.cart[name].minutes=Math.max(1,Math.min(600,Number($("min-"+id).value)||1));settings.cart[name].message=$("msg-"+id).value.trim()||"Attention, Assembly.";settings.cart[name].warning=$("warn-"+id).checked});Object.keys(settings.assist).forEach(name=>settings.assist[name]=$("msg-assist-"+slug(name)).value.trim()||name);Object.keys(settings.shift).forEach(name=>settings.shift[name]=$("msg-shift-"+slug(name)).value.trim()||name);settings.warningMinutes=Math.max(0,Math.min(30,Number($("warningMinutes").value)||0));settings.repeatSeconds=Math.max(0,Math.min(600,Number($("repeatSeconds").value)||0));save();makeCart();makeCalls("washerAssistGrid",settings.assist,"assist");makeCalls("otherAssistGrid",{"Assistance for Drying Cabinet":settings.assist["Assistance for Drying Cabinet"],"Assistance for Pass Window":settings.assist["Assistance for Pass Window"]},"assist");makeCalls("shiftGrid",settings.shift,"shift");makeSettings();log("Settings saved on this desktop browser.")}
+function showPage(which){const home=which==="home";$("homePage").hidden=!home;$("toolsPage").hidden=home;$("homeTab").classList.toggle("active",home);$("toolsTab").classList.toggle("active",!home);$("homeTab").setAttribute("aria-selected",String(home));$("toolsTab").setAttribute("aria-selected",String(!home))}
+$("homeTab").onclick=()=>showPage("home");$("toolsTab").onclick=()=>showPage("tools");
+document.querySelectorAll("#homePage [data-call]").forEach(b=>b.onclick=()=>{const dictNow=b.dataset.kind==="shift"?settings.shift:settings.assist;speak(dictNow[b.dataset.call]);log("Announcement played: "+b.dataset.call)});
 $("enableAudio").onclick=()=>{ensureAudio();if(audioCtx){const o=audioCtx.createOscillator(),g=audioCtx.createGain();g.gain.value=.0001;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.03)}log("Audio enabled by user interaction.")};
 $("speakerTest").onclick=()=>{ensureAudio();chime();setTimeout(()=>speak("Speaker test. This is the SPD Unload and Announcement System. If you can hear this through the JBL speaker, audio output is working right now."),700);status("test playing · listen for chime and voice");log("Speaker test started.")};
 $("stopSound").onclick=()=>{stopSound();Object.keys(runtime).forEach(name=>{const t=runtime[name];if(t.status==="alert"){clearRuntime(name);t.status="stopped";renderTimer(name)}});activeCount()};
